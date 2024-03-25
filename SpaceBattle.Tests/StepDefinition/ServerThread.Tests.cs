@@ -24,25 +24,16 @@ public class ServerTheardTests
             {
                 return new ActionCommand(() =>
                     {
-                        idDict.TryAdd((int)args[0], (ServerThread)args[1]);
+                        var q = new BlockingCollection<_ICommand.ICommand>(10);
+                        var st = new ServerThread(q, IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current")));
+                        idDict.TryAdd((int)args[0], st);
+                        queueDict.TryAdd((int)args[0], q);
                         var thread = IoC.Resolve<ConcurrentDictionary<int, ServerThread>>("Server.Dict")[(int)args[0]];
                         thread.Execute();
-                        if (args.Length == 3 && args[2] != null)
+                        if (args.Length == 2 && args[1] != null)
                         {
-                            new ActionCommand((Action)args[2]).Execute();
+                            new ActionCommand((Action)args[1]).Execute();
                         }
-                    }
-                );
-            }
-        ).Execute();
-
-        IoC.Resolve<ICommand>("IoC.Register",
-            "Add Command To QueueDict",
-            (object[] args) =>
-            {
-                return new ActionCommand(() =>
-                    {
-                        queueDict.TryAdd((int)args[0], (BlockingCollection<_ICommand.ICommand>)args[1]);
                     }
                 );
             }
@@ -102,13 +93,9 @@ public class ServerTheardTests
     {
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current"))).Execute();
 
-        var q = new BlockingCollection<_ICommand.ICommand>(10);
-        var st = new ServerThread(q, IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current")));
-
         IoC.Resolve<ICommand>("IoC.Register", "ExceptionHandler.Handle", (object[] args) => new ActionCommand(() => { })).Execute();
 
-        IoC.Resolve<_ICommand.ICommand>("Add Command To QueueDict", 1, q).Execute();
-        IoC.Resolve<_ICommand.ICommand>("Create and Start Thread", 1, st).Execute();
+        IoC.Resolve<_ICommand.ICommand>("Create and Start Thread", 1).Execute();
 
         var command = new Mock<_ICommand.ICommand>();
         command.Setup(m => m.Execute()).Verifiable();
@@ -122,7 +109,7 @@ public class ServerTheardTests
 
         mre.WaitOne(1000);
 
-        Assert.Single(q);
+        Assert.Single(IoC.Resolve<ConcurrentDictionary<int, BlockingCollection<_ICommand.ICommand>>>("Server.QueueDict")[1]);
     }
 
     [Fact]
@@ -131,13 +118,10 @@ public class ServerTheardTests
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current"))).Execute();
 
         var cmd = new Mock<_ICommand.ICommand>();
-        var q = new BlockingCollection<_ICommand.ICommand>(10);
-        var st = new ServerThread(q, IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current")));
 
         IoC.Resolve<ICommand>("IoC.Register", "ExceptionHandler.Handle", (object[] args) => cmd.Object).Execute();
 
-        IoC.Resolve<_ICommand.ICommand>("Add Command To QueueDict", 2, q).Execute();
-        IoC.Resolve<_ICommand.ICommand>("Create and Start Thread", 2, st).Execute();
+        IoC.Resolve<_ICommand.ICommand>("Create and Start Thread", 2).Execute();
 
         var mre = new ManualResetEvent(false);
         var hs = IoC.Resolve<_ICommand.ICommand>("Hard Stop The Thread", 2, () => { mre.Set(); });
@@ -152,7 +136,7 @@ public class ServerTheardTests
         mre.WaitOne(1000);
 
         Assert.Throws<Exception>(() => hs.Execute());
-        Assert.Single(q);
+        Assert.Single(IoC.Resolve<ConcurrentDictionary<int, BlockingCollection<_ICommand.ICommand>>>("Server.QueueDict")[2]);
     }
 
     [Fact]
@@ -160,15 +144,12 @@ public class ServerTheardTests
     {
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current"))).Execute();
 
-        var q = new BlockingCollection<_ICommand.ICommand>(10);
-        var st = new ServerThread(q, IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current")));
-
         IoC.Resolve<ICommand>("IoC.Register", "ExceptionHandler.Handle", (object[] args) => new ActionCommand(() => { })).Execute();
 
-        IoC.Resolve<_ICommand.ICommand>("Add Command To QueueDict", 3, q).Execute();
-        IoC.Resolve<_ICommand.ICommand>("Create and Start Thread", 3, st).Execute();
+        IoC.Resolve<_ICommand.ICommand>("Create and Start Thread", 3).Execute();
 
         var mre = new ManualResetEvent(false);
+        var q = IoC.Resolve<ConcurrentDictionary<int, BlockingCollection<_ICommand.ICommand>>>("Server.QueueDict")[3];
 
         var ss = IoC.Resolve<_ICommand.ICommand>("Soft Stop The Thread", 3, () => { mre.Set(); }, q);
 
@@ -191,15 +172,13 @@ public class ServerTheardTests
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current"))).Execute();
 
         var cmd = new Mock<_ICommand.ICommand>();
-        var q = new BlockingCollection<_ICommand.ICommand>(10);
-        var st = new ServerThread(q, IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current")));
 
         IoC.Resolve<ICommand>("IoC.Register", "ExceptionHandler.Handle", (object[] args) => cmd.Object).Execute();
 
-        IoC.Resolve<_ICommand.ICommand>("Add Command To QueueDict", 4, q).Execute();
-        IoC.Resolve<_ICommand.ICommand>("Create and Start Thread", 4, st).Execute();
+        IoC.Resolve<_ICommand.ICommand>("Create and Start Thread", 4).Execute();
 
         var mre = new ManualResetEvent(false);
+        var q = IoC.Resolve<ConcurrentDictionary<int, BlockingCollection<_ICommand.ICommand>>>("Server.QueueDict")[4];
 
         var ss = IoC.Resolve<_ICommand.ICommand>("Soft Stop The Thread", 4, () => { mre.Set(); }, q);
 
@@ -222,11 +201,7 @@ public class ServerTheardTests
     {
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current"))).Execute();
 
-        var q = new BlockingCollection<_ICommand.ICommand>(10);
-        var st = new ServerThread(q, IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current")));
-
-        IoC.Resolve<_ICommand.ICommand>("Add Command To QueueDict", 5, q).Execute();
-        IoC.Resolve<_ICommand.ICommand>("Create and Start Thread", 5, st).Execute();
+        IoC.Resolve<_ICommand.ICommand>("Create and Start Thread", 5).Execute();
 
         var mre = new ManualResetEvent(false);
 
@@ -237,7 +212,7 @@ public class ServerTheardTests
         mre.WaitOne(1000);
 
         Assert.Throws<Exception>(() => hs.Execute());
-        Assert.Empty(q);
+        Assert.Empty(IoC.Resolve<ConcurrentDictionary<int, BlockingCollection<_ICommand.ICommand>>>("Server.QueueDict")[5]);
     }
 
     [Fact]
