@@ -20,7 +20,7 @@ public class SoftStop : _ICommand.ICommand
         {
             thread.UpdateBehavior(() =>
             {
-                if (queue.TryTake(out var command) == true)
+                if (queue.Count() > 0)
                 {
                     var cmd = queue.Take();
                     try
