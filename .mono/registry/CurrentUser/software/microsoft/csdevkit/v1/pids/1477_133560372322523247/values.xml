@@ -1,3 +1,5 @@
 ﻿<values>
-  <value name="StillAlive" type="qword">133560375374615316</value>
+  <value name="VS.TelemetryApi.ChannelsDisposeLatency" type="int">13</value>
+  <value name="VS.TelemetryApi.DroppedEventsDuringDisposing" type="int">0</value>
+  <value name="VS.TelemetryApi.TotalDisposeLatency" type="int">32</value>
 </values>
