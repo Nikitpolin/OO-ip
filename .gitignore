@@ -390,9 +390,5 @@ FodyWeavers.xsd
 *.msp
 
 # JetBrains Rider
-<<<<<<<<< Temporary merge branch 1
-*.sln.iml
-=========
 *.sln.iml
 README.md
->>>>>>>>> Temporary merge branch 2
