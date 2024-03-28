@@ -1,0 +1,12 @@
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/bin/Debug/net7.0/SpaceBattle.deps.json
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/bin/Debug/net7.0/SpaceBattle.dll
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/bin/Debug/net7.0/SpaceBattle.pdb
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/obj/Debug/net7.0/SpaceBattle.csproj.AssemblyReference.cache
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/obj/Debug/net7.0/SpaceBattle.GeneratedMSBuildEditorConfig.editorconfig
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/obj/Debug/net7.0/SpaceBattle.AssemblyInfoInputs.cache
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/obj/Debug/net7.0/SpaceBattle.AssemblyInfo.cs
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/obj/Debug/net7.0/SpaceBattle.csproj.CoreCompileInputs.cache
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/obj/Debug/net7.0/SpaceBattle.dll
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/obj/Debug/net7.0/refint/SpaceBattle.dll
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/obj/Debug/net7.0/SpaceBattle.pdb
+/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/obj/Debug/net7.0/ref/SpaceBattle.dll
