@@ -391,4 +391,8 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-.mono/
+# Mono auto generated files
+mono_crash.*
+
+# Mono registry files
+.mono/registry/
