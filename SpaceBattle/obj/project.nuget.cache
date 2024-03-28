@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "gur82qpQDD6V8eOGuV4y5LBm8eF8DaizQ87jQl2+KPIF2bdjEjWorLUqL/4man8pd/p7DdpJHaWVk1RThs9/gQ==",
+  "success": true,
+  "projectFilePath": "/home/ubuntu/.ssh/OO-ip-1/SpaceBattle/SpaceBattle.csproj",
+  "expectedPackageFiles": [
+    "/home/ubuntu/.nuget/packages/castle.core/5.1.0/castle.core.5.1.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/hwdtech.core/1.0.0/hwdtech.core.1.0.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/hwdtech.ioc/1.0.0/hwdtech.ioc.1.0.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/hwdtech.ioc.scopebasediocimplementation/1.0.0/hwdtech.ioc.scopebasediocimplementation.1.0.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/hwdtech.ioc.singlethreadscope/1.0.0/hwdtech.ioc.singlethreadscope.1.0.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/microsoft.netcore.targets/1.1.0/microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/moq/4.18.3/moq.4.18.3.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/system.diagnostics.eventlog/6.0.0/system.diagnostics.eventlog.6.0.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/system.runtime/4.3.0/system.runtime.4.3.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/system.threading/4.3.0/system.threading.4.3.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/system.threading.tasks/4.3.0/system.threading.tasks.4.3.0.nupkg.sha512"
+  ],
+  "logs": []
+}
