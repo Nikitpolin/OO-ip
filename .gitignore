@@ -391,4 +391,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-mono/
+.mono/
