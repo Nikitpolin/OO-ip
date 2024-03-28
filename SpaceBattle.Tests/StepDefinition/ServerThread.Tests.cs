@@ -2,6 +2,8 @@
 using Hwdtech;
 using Hwdtech.Ioc;
 using Moq;
+using System;
+using System.Threading;
 namespace SpaceBattle.Test;
 public class ServerTheardTests
 {
