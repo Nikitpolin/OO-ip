@@ -32,7 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SpaceBattle\SpaceBattle.csproj" />
-  </ItemGroup
+  </ItemGroup>
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
