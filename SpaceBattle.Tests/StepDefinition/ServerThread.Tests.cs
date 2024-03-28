@@ -1,9 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Threading;
 using Hwdtech;
 using Hwdtech.Ioc;
 using Moq;
-using System;
-using System.Threading;
 namespace SpaceBattle.Test;
 public class ServerTheardTests
 {
