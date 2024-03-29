@@ -34,4 +34,3 @@
     <ProjectReference Include="..\SpaceBattle\SpaceBattle.csproj" />
   </ItemGroup>
   
-</Project>
