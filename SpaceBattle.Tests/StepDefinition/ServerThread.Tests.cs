@@ -90,7 +90,7 @@ public class ServerTheardTests
         ).Execute();
     }
 
-    [Fact]
+    [Xunit.Fact]
     public void HardStopShouldStopServerThread()
     {
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current"))).Execute();
@@ -111,10 +111,10 @@ public class ServerTheardTests
 
         mre.WaitOne(1000);
 
-        Assert.Single(IoC.Resolve<ConcurrentDictionary<int, BlockingCollection<_ICommand.ICommand>>>("Server.QueueDict")[1]);
+        Xunit.Assert.Single(IoC.Resolve<ConcurrentDictionary<int, BlockingCollection<_ICommand.ICommand>>>("Server.QueueDict")[1]);
     }
 
-    [Fact]
+    [Xunit.Fact]
     public void HardStopShouldStopServerThreadWithCommandWithException()
     {
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current"))).Execute();
@@ -137,11 +137,11 @@ public class ServerTheardTests
 
         mre.WaitOne(1000);
 
-        Assert.Throws<Exception>(() => hs.Execute());
-        Assert.Single(IoC.Resolve<ConcurrentDictionary<int, BlockingCollection<_ICommand.ICommand>>>("Server.QueueDict")[2]);
+        Xunit.Assert.Throws<Exception>(() => hs.Execute());
+        Xunit.Assert.Single(IoC.Resolve<ConcurrentDictionary<int, BlockingCollection<_ICommand.ICommand>>>("Server.QueueDict")[2]);
     }
 
-    [Fact]
+    [Xunit.Fact]
     public void SoftStopShouldStopServerThread()
     {
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current"))).Execute();
@@ -165,10 +165,10 @@ public class ServerTheardTests
 
         mre.WaitOne(1000);
 
-        Assert.Empty(q);
+        Xunit.Assert.Empty(q);
     }
 
-    [Fact]
+    [Xunit.Fact]
     public void SoftStopShouldStopServerThreadWithCommandWithException()
     {
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current"))).Execute();
@@ -194,11 +194,11 @@ public class ServerTheardTests
 
         mre.WaitOne(1000);
 
-        Assert.Throws<Exception>(() => ss.Execute());
-        Assert.Empty(q);
+        Xunit.Assert.Throws<Exception>(() => ss.Execute());
+        Xunit.Assert.Empty(q);
     }
 
-    [Fact]
+    [Xunit.Fact]
     public void HardStopCanNotStopServerBecauseOfWrongThread()
     {
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current"))).Execute();
@@ -213,29 +213,29 @@ public class ServerTheardTests
 
         mre.WaitOne(1000);
 
-        Assert.Throws<Exception>(() => hs.Execute());
-        Assert.Empty(IoC.Resolve<ConcurrentDictionary<int, BlockingCollection<_ICommand.ICommand>>>("Server.QueueDict")[5]);
+        Xunit.Assert.Throws<Exception>(() => hs.Execute());
+        Xunit.Assert.Empty(IoC.Resolve<ConcurrentDictionary<int, BlockingCollection<_ICommand.ICommand>>>("Server.QueueDict")[5]);
     }
 
-    [Fact]
+    [Xunit.Fact]
     public void HashCodeTheSame()
     {
         var queue1 = new BlockingCollection<_ICommand.ICommand>();
         var serverThread1 = new ServerThread(queue1, IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current")));
         var queue2 = new BlockingCollection<_ICommand.ICommand>();
         var serverThread2 = new ServerThread(queue2, IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current")));
-        Assert.True(serverThread1.GetHashCode() != serverThread2.GetHashCode());
+        Xunit.Assert.True(serverThread1.GetHashCode() != serverThread2.GetHashCode());
     }
 
-    [Fact]
+    [Xunit.Fact]
     public void EqualThreadsWithNull()
     {
         var q = new BlockingCollection<_ICommand.ICommand>(10);
         var st = new ServerThread(q, IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Current")));
-        Assert.False(st.Equals(null));
+        Xunit.Assert.False(st.Equals(null));
     }
 
-    [Fact]
+    [Xunit.Fact]
     public void PositiveEqualThreads()
     {
         var q1 = new BlockingCollection<_ICommand.ICommand>(10);
@@ -243,10 +243,10 @@ public class ServerTheardTests
         var st1 = new ServerThread(q1, Thread.CurrentThread);
         var st2 = new ServerThread(q1, Thread.CurrentThread);
 
-        Assert.False(st1.Equals(st2));
+        Xunit.Assert.False(st1.Equals(st2));
     }
 
-    [Fact]
+    [Xunit.Fact]
     public void AbsoluteDifferendEquals()
     {
         var q = new BlockingCollection<_ICommand.ICommand>(10);
@@ -254,6 +254,6 @@ public class ServerTheardTests
         var st1 = new ServerThread(q, Thread.CurrentThread);
         var nothing = 22;
 
-        Assert.False(st1.Equals(nothing));
+        Xunit.Assert.False(st1.Equals(nothing));
     }
 }
