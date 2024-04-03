@@ -390,7 +390,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-*.sln.iml
 
 # Mono auto generated files
 mono_crash.*
