@@ -1,4 +1,4 @@
-﻿using _ICommand;
+using _ICommand;
 namespace SpaceBattle;
 public class ActionCommand : ICommand
 {
@@ -12,4 +12,3 @@ public class ActionCommand : ICommand
     {
         _action();
     }
-}
