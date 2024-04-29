@@ -1,4 +1,4 @@
-using Hwdtech;
+﻿using Hwdtech;
 
 namespace SpaceBattle;
 
@@ -12,6 +12,7 @@ public class InitSoftStopCmd : Hwdtech.ICommand
             {
                 return new SoftStopCommand((ServerThread)args[0], (Action)args[1]);
             }
+
             return new SoftStopCommand((ServerThread)args[0], () => { });
         }).Execute();
     }

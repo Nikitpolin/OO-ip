@@ -1,4 +1,4 @@
-using Hwdtech;
+﻿using Hwdtech;
 
 namespace SpaceBattle;
 
@@ -19,6 +19,7 @@ public class InitHardStopCmd : Hwdtech.ICommand
                     }
                 });
             }
+
             return new ActionCommand(() =>
             {
                 if (((ServerThread)args[0]).Equals(Thread.CurrentThread))

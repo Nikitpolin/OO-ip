@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using Hwdtech;
 
 namespace SpaceBattle;
@@ -19,6 +19,7 @@ public class InitCreateStartRegisterThreadCmd : Hwdtech.ICommand
             {
                 action = (Action)args[1];
             }
+
             return new ActionCommand(() =>
             {
                 var q = new BlockingCollection<Hwdtech.ICommand>(100);

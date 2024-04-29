@@ -1,13 +1,13 @@
 ﻿namespace SpaceBattle.Tests;
 
 using System;
-using System.Threading;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading;
 using Hwdtech;
-using Xunit;
 using Hwdtech.Ioc;
 using Moq;
+using Xunit;
 
 public class ServerThreadTest_Exeption
 {
