@@ -1,20 +1,15 @@
 ﻿namespace SpaceBattle;
-public class HardStop : _ICommand.ICommand
+
+public class HardStopCommand : Hwdtech.ICommand
 {
-    private readonly ServerThread thread;
-    public HardStop(ServerThread thread)
+    private readonly ServerThread _t;
+    public HardStopCommand(ServerThread t)
     {
-        this.thread = thread;
+        _t = t;
     }
+
     public void Execute()
     {
-        if (thread.Equals(Thread.CurrentThread))
-        {
-            thread.Stop();
-        }
-        else
-        {
-            throw new Exception("Wrong Thread");
-        }
+        _t.Stop();
     }
 }
