@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using Hwdtech;
 
 namespace SpaceBattle;
@@ -30,7 +30,6 @@ public class ServerThread
         _thread = new Thread(() =>
         {
             IoC.Resolve<ICommand>("Scopes.Current.Set", _scope).Execute();
-
             while (!_stop)
             {
                 _behavior();
