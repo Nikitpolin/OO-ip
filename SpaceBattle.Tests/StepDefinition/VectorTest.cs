@@ -1,6 +1,6 @@
+﻿using System;
 using _Vector;
-using  Xunit;
-using System;
+using Xunit;
 
 namespace SpaceBattle.Test
 {
