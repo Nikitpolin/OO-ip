@@ -7,16 +7,6 @@
     using Moq;
     using Xunit;
 
-    public class ActionCommand : Hwdtech.ICommand
-    {
-        private readonly Action _action;
-        public ActionCommand(Action action) => _action = action;
-        public void Execute()
-        {
-            _action();
-        }
-    }
-
     public class GameTest
     {
         public readonly Dictionary<string, object> scopeMap = new Dictionary<string, object>() {
@@ -77,7 +67,7 @@
         {
             var gameId = "1";
 
-            var createGameStrategy = new CreateNewGame();
+            var createGameStrategy = new NewGameScopeStrategy();
             var result = createGameStrategy.Run(gameId);
 
             Assert.NotNull(result);

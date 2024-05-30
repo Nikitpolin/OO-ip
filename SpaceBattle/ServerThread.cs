@@ -1,20 +1,21 @@
-﻿namespace SpaceBattle;
-
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using Hwdtech;
+
+namespace SpaceBattle;
 
 public class ServerThread
 {
-    private Action _behaviour;
-    private readonly BlockingCollection<Hwdtech.ICommand> _queue;
+    private readonly BlockingCollection<_ICommand.ICommand> _queue;
     private readonly Thread _thread;
     private bool _stop = false;
+    private Action _behavior;
+    private readonly object _scope;
 
-    public ServerThread(BlockingCollection<Hwdtech.ICommand> queue)
+    public ServerThread(BlockingCollection<_ICommand.ICommand> queue, object scope)
     {
+        _scope = scope;
         _queue = queue;
-
-        _behaviour = () =>
+        _behavior = () =>
         {
             var cmd = _queue.Take();
             try
@@ -23,51 +24,54 @@ public class ServerThread
             }
             catch (Exception e)
             {
-                IoC.Resolve<Hwdtech.ICommand>("ExceptionHandler.Handle", cmd, e).Execute();
+                IoC.Resolve<_ICommand.ICommand>("ExceptionHandler.Handle", cmd, e).Execute();
             }
         };
-
-        _thread = new Thread(Loop);
-    }
-
-    private void Loop()
-    {
-        while (!_stop)
+        _thread = new Thread(() =>
         {
-            _behaviour();
-        }
+            IoC.Resolve<ICommand>("Scopes.Current.Set", _scope).Execute();
+            while (!_stop)
+            {
+                _behavior();
+            }
+        });
+
     }
 
-    internal void Stop()
-    {
-        _stop = !_stop;
-    }
-
-    internal Action GetBehaviour()
-    {
-        return _behaviour;
-    }
-
-    internal void SetBehaviour(Action newBehaviour)
-    {
-        _behaviour = newBehaviour;
-    }
-
-    public void Start()
+    public void Execute()
     {
         _thread.Start();
     }
-    public bool IsNotEmpty()
+    internal void Stop()
     {
-        return Convert.ToBoolean(_queue.Count());
+        _stop = true;
+    }
+    public void UpdateBehavior(Action newBehavior)
+    {
+        _behavior = newBehavior;
     }
     public override bool Equals(object? obj)
     {
-        return obj != null && obj is Thread thread && _thread == thread;
+        if (obj == null)
+        {
+            return false;
+        }
+
+        if (obj.GetType() == typeof(Thread))
+        {
+            return _thread == (Thread)obj;
+        }
+
+        if (GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        return false;
     }
 
     public override int GetHashCode()
     {
-        return base.GetHashCode();
+        return _thread.GetHashCode();
     }
 }
