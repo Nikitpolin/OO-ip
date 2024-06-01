@@ -1,9 +1,9 @@
+﻿using System.Collections.Generic;
 using _Vector;
 using Hwdtech;
 using Hwdtech.Ioc;
 using Moq;
 using Xunit;
-using System.Collections.Generic;
 
 namespace SpaceBattle.Tests;
 

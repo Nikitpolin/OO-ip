@@ -1,4 +1,4 @@
-using _Vector;
+﻿using _Vector;
 
 namespace SpaceBattle;
 

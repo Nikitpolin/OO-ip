@@ -1,4 +1,4 @@
-namespace SpaceBattle;
+﻿namespace SpaceBattle;
 
 public class SetPositionStrategy : IStrategy
 {
