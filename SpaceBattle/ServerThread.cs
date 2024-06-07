@@ -1,21 +1,20 @@
-﻿using System.Collections.Concurrent;
-using Hwdtech;
+﻿namespace SpaceBattle;
 
-namespace SpaceBattle;
+using System.Collections.Concurrent;
+using Hwdtech;
 
 public class ServerThread
 {
-    private readonly BlockingCollection<_ICommand.ICommand> _queue;
+    private Action _behaviour;
+    private readonly BlockingCollection<Hwdtech.ICommand> _queue;
     private readonly Thread _thread;
     private bool _stop = false;
-    private Action _behavior;
-    private readonly object _scope;
 
-    public ServerThread(BlockingCollection<_ICommand.ICommand> queue, object scope)
+    public ServerThread(BlockingCollection<Hwdtech.ICommand> queue)
     {
-        _scope = scope;
         _queue = queue;
-        _behavior = () =>
+
+        _behaviour = () =>
         {
             var cmd = _queue.Take();
             try
@@ -24,54 +23,51 @@ public class ServerThread
             }
             catch (Exception e)
             {
-                IoC.Resolve<_ICommand.ICommand>("ExceptionHandler.Handle", cmd, e).Execute();
+                IoC.Resolve<Hwdtech.ICommand>("ExceptionHandler.Handle", cmd, e).Execute();
             }
         };
-        _thread = new Thread(() =>
-        {
-            IoC.Resolve<ICommand>("Scopes.Current.Set", _scope).Execute();
-            while (!_stop)
-            {
-                _behavior();
-            }
-        });
 
+        _thread = new Thread(Loop);
     }
 
-    public void Execute()
+    private void Loop()
+    {
+        while (!_stop)
+        {
+            _behaviour();
+        }
+    }
+
+    internal void Stop()
+    {
+        _stop = !_stop;
+    }
+
+    internal Action GetBehaviour()
+    {
+        return _behaviour;
+    }
+
+    internal void SetBehaviour(Action newBehaviour)
+    {
+        _behaviour = newBehaviour;
+    }
+
+    public void Start()
     {
         _thread.Start();
     }
-    internal void Stop()
+    public bool IsNotEmpty()
     {
-        _stop = true;
-    }
-    public void UpdateBehavior(Action newBehavior)
-    {
-        _behavior = newBehavior;
+        return Convert.ToBoolean(_queue.Count());
     }
     public override bool Equals(object? obj)
     {
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (obj.GetType() == typeof(Thread))
-        {
-            return _thread == (Thread)obj;
-        }
-
-        if (GetType() != obj.GetType())
-        {
-            return false;
-        }
-
-        return false;
+        return obj != null && obj is Thread thread && _thread == thread;
     }
 
     public override int GetHashCode()
     {
-        return _thread.GetHashCode();
+        return base.GetHashCode();
     }
 }

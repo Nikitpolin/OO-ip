@@ -1,48 +1,32 @@
-﻿using System.Collections.Concurrent;
+﻿namespace SpaceBattle;
 using Hwdtech;
-
-namespace SpaceBattle;
-public class SoftStop : _ICommand.ICommand
+public class SoftStopCommand : Hwdtech.ICommand
 {
-    public ServerThread thread;
-    private readonly BlockingCollection<_ICommand.ICommand> queue;
-    public Action action = () => { };
-
-    public SoftStop(ServerThread thread, Action action, BlockingCollection<_ICommand.ICommand> queue)
+    private readonly ServerThread _t;
+    private readonly Action _a;
+    public SoftStopCommand(ServerThread t, Action a)
     {
-        this.thread = thread;
-        this.action = action;
-        this.queue = queue;
+        _t = t;
+        _a = a;
     }
+
     public void Execute()
     {
-        if (thread.Equals(Thread.CurrentThread))
+        if (_t.Equals(Thread.CurrentThread))
         {
-            thread.UpdateBehavior(() =>
+            var old_behaviour = _t.GetBehaviour();
+            Action ssbehaviour = () =>
             {
-                if (queue.Count() > 0)
+                if (_t.IsNotEmpty())
                 {
-                    var cmd = queue.Take();
-                    try
-                    {
-                        cmd.Execute();
-                    }
-                    catch (Exception e)
-                    {
-                        IoC.Resolve<_ICommand.ICommand>("ExceptionHandler.Handle", cmd, e).Execute();
-                    }
+                    old_behaviour();
                 }
                 else
                 {
-                    thread.Stop();
-                    action();
-
+                    IoC.Resolve<Hwdtech.ICommand>("Server.Commands.HardStop", _t, _a).Execute();
                 }
-            });
-        }
-        else
-        {
-            throw new Exception("Wrong Thread");
+            };
+            _t.SetBehaviour(ssbehaviour);
         }
     }
 }
