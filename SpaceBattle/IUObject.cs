@@ -2,6 +2,7 @@
 
 public interface IUObject
 {
-    void SetProperty(string key, object value);
-    object GetProperty(string key);
+    void DeleteProperty(string name);
+    void setProperty(string key, object value);
+    object getProperty(string key);
 }
