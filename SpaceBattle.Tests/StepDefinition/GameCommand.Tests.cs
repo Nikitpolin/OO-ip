@@ -1,10 +1,10 @@
-namespace SpaceBattle.Test;
+﻿namespace SpaceBattle.Test;
+using System;
 using System.Collections.Generic;
 using Hwdtech;
 using Hwdtech.Ioc;
 using Moq;
 using Xunit;
-using System;
 public class GameTest
 {
     public readonly Dictionary<string, object> scopeMap = new Dictionary<string, object>() {
